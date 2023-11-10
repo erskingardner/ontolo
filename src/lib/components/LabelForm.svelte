@@ -51,7 +51,6 @@
             {#each categories as category}
                 <button
                     on:click={() => handleCategorySelect(category)}
-                    on:touchend={() => handleCategorySelect(category)}
                     class="{selectedCategory?.name === category.name
                         ? 'bg-gray-700 text-gray-50 dark:bg-gray-300 dark:text-gray-950'
                         : 'bg-gray-300 dark:bg-gray-600'} dark:text-white p-2 px-4 rounded-md text-lg flex gap-2 items-center"
@@ -72,8 +71,7 @@
         >
             {#each selectedCategory.subcategories as category}
                 <button
-                    on:click|preventDefault={() => (selectedSubcategory = category)}
-                    on:touchend|preventDefault={() => (selectedSubcategory = category)}
+                    on:click={() => (selectedSubcategory = category)}
                     class="{selectedSubcategory?.name === category.name
                         ? 'bg-gray-700 text-gray-50 dark:bg-gray-300 dark:text-gray-950'
                         : 'bg-gray-300 dark:bg-gray-600 dark:text-white'} p-2 px-4 rounded-md text-lg flex gap-2 items-center"

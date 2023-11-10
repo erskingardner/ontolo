@@ -23,6 +23,7 @@
         Wallet,
         Newspaper,
         Medal,
+        Box,
     } from "lucide-svelte";
 
     export let icon: string;
@@ -74,6 +75,8 @@
     <Wallet />
 {:else if icon === "newspaper"}
     <Newspaper />
+{:else if icon === "box"}
+    <Box />
 {:else}
     <!-- Do nothing -->
 {/if}

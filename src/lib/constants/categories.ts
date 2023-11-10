@@ -29,6 +29,7 @@ export const categories: App.Category[] = [
         subcategories: [
             { name: "News", icon: "newspaper" },
             { name: "Tutorials", icon: "library" },
+            { name: "Products", icon: "box" },
         ],
     },
     {
