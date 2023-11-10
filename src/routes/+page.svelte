@@ -31,6 +31,6 @@
     {#if event}
         <EventCard {event} />
         <LabelForm {event} />
-        <EventDebug {event} />
+        <!-- <EventDebug {event} /> -->
     {/if}
 </div>

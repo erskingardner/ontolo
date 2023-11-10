@@ -2,7 +2,7 @@
     import "../app.css";
 </script>
 
-<div class="container prose prose-sm dark:prose-invert mb-10">
+<div class="container prose prose-sm dark:prose-invert mb-10 overflow-hidden">
     <div
         class="header flex justify-between items-center p-4 bg-gray-200 dark:bg-gray-800 rounded-b-md"
     >
