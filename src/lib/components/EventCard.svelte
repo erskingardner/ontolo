@@ -7,7 +7,7 @@
     export let event: NDKEvent;
 </script>
 
-<div class="event border border-gray-500/50 rounded-md my-6 p-4">
+<div class="event border border-gray-500/50 rounded-md my-4 p-4 max-h-[40vh] overflow-y-scroll">
     <div class="author flex items-center gap-4">
         <Avatar
             ndk={$ndk}

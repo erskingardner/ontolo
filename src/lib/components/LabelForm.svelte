@@ -30,7 +30,7 @@
     $: console.log(selectedCategory);
 </script>
 
-<div class="breadcrumb my-8 h-4 flex gap-2 items-center">
+<div class="breadcrumb my-6 h-4 flex gap-2 items-center">
     {#if selectedCategory}
         <button
             on:click={backToCategory}
@@ -40,7 +40,7 @@
         {`${selectedCategory.name} ->`}
     {/if}
 </div>
-<div class="relative">
+<div class="relative max-h-[35vh] overflow-y-scroll overflow-x-hidden">
     {#if categoriesVisible}
         <div
             id="categoryList"
