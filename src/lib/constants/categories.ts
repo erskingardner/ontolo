@@ -1,4 +1,5 @@
 export const categories: App.Category[] = [
+    { name: "Skip", icon: "fast-forward" },
     { name: "Finance", icon: "circle-dollar-sign" },
     { name: "Technology", icon: "cpu" },
     { name: "Entertainment", icon: "clapperboard" },

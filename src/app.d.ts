@@ -5,6 +5,7 @@ declare global {
         interface Category {
             name: string;
             icon: string;
+            subcategories?: Category[];
         }
         // interface Error {}
         // interface Locals {}

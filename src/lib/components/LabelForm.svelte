@@ -8,7 +8,9 @@
         HeartPulse,
         Utensils,
         MapPinned,
+        FastForward,
     } from "lucide-svelte";
+
     export let event: NDKEvent;
 
     let selectedCategory: App.Category;
@@ -20,9 +22,10 @@
     {#each categories as category}
         <button
             on:click|preventDefault={() => (selectedCategory = category)}
-            class="dark:bg-gray-600 {selectedCategory?.name === category.name
-                ? 'dark:bg-gray-300 dark:text-black'
-                : ''} dark:text-white p-2 px-4 rounded-md text-lg flex gap-2 items-center"
+            on:touchend|preventDefault={() => (selectedCategory = category)}
+            class="{selectedCategory?.name === category.name
+                ? 'bg-gray-700 text-gray-50 dark:bg-gray-300 dark:text-gray-950'
+                : 'bg-gray-300 dark:bg-gray-600'} dark:text-white p-2 px-4 rounded-md text-lg flex gap-2 items-center"
         >
             {#if category.icon === "circle-dollar-sign"}
                 <CircleDollarSign />
@@ -36,6 +39,8 @@
                 <Utensils />
             {:else if category.icon === "map-pinned"}
                 <MapPinned />
+            {:else if category.icon === "fast-forward"}
+                <FastForward />
             {:else}
                 <!-- Do nothing -->
             {/if}
