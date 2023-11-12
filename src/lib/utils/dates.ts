@@ -21,6 +21,7 @@ export function formattedDate(unixTimestampInSeconds: number): string {
     return date.toLocaleDateString("en-US", options);
 }
 
-export function timeAgo(unixTimestampInSeconds: number): string {
+export function timeAgo(unixTimestampInSeconds: number | undefined): string {
+    if (unixTimestampInSeconds === undefined) return "Unknown";
     return dayjs().to(dayjs.unix(unixTimestampInSeconds));
 }

@@ -6,31 +6,43 @@
     import type { NDKEvent } from "@nostr-dev-kit/ndk";
     import { onMount } from "svelte";
 
-    let events: Set<NDKEvent>;
-    let event: NDKEvent | null = null;
+    let events: NDKEvent[] = [];
+    let event: NDKEvent | undefined = undefined;
 
     onMount(async () => {
-        events = await $ndk.fetchEvents({
+        await loadEvents();
+    });
+
+    async function skipForward() {
+        console.log("skip");
+        if (events.length === 0) {
+            await loadEvents();
+        } else {
+            event = events.pop();
+        }
+    }
+
+    async function loadEvents() {
+        // Fetch events
+        const eventSet = await $ndk.fetchEvents({
             kinds: [1],
             limit: 100,
             since: Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000),
         });
-    });
 
-    function randomEvent(arr: NDKEvent[]): NDKEvent {
-        const filtered = arr
+        // Filter out reposts and quotes
+        events = [...eventSet]
             .filter((e) => !e.tags.map((t) => t[0]).includes("e"))
             .filter((e) => !e.tags.map((t) => t[0]).includes("q"));
-        return filtered[Math.floor(Math.random() * filtered.length)];
-    }
 
-    $: event = events ? randomEvent([...events]) : null;
+        event = events.pop();
+    }
 </script>
 
 <div class="eventContainer px-4 lg:px-0">
     {#if event}
         <EventCard {event} />
-        <LabelForm {event} />
+        <LabelForm {event} on:nextEvent={skipForward} />
         <!-- <EventDebug {event} /> -->
     {/if}
 </div>
