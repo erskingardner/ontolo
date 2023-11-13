@@ -71,9 +71,10 @@
         });
 
         labelEvent
-            .publish()
+            .sign()
             .then(() => {
-                toast.success("Label published!");
+                toast.success("Publishing label");
+                labelEvent.publish();
                 backToCategory();
                 sessionCount.increment();
                 dispatch("nextEvent");

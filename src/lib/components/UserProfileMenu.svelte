@@ -46,7 +46,7 @@
                 on:pointerleave={toggleProfileMenu}
                 in:scale={{ duration: 100, easing: expoInOut, start: 0.95 }}
                 out:scale={{ duration: 75, easing: expoInOut, start: 0.95 }}
-                class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white dark:bg-gray-800 dark:text-gray-50 py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
+                class="absolute right-0 z-30 mt-2.5 w-32 origin-top-right rounded-md bg-white dark:bg-gray-800 dark:text-gray-50 py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="user-menu-button"
