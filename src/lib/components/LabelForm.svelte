@@ -9,6 +9,7 @@
     import ndk from "$lib/stores/ndk";
     import { unixTimeNowInSeconds } from "$lib/utils/dates";
     import { currentUser } from "$lib/stores/currentUser";
+    import { sessionCount } from "$lib/stores/sessionCount";
 
     const dispatch = createEventDispatcher();
 
@@ -21,6 +22,10 @@
     let selectedSubcategory: App.Category | null = null;
 
     function handleCategorySelect(category: App.Category) {
+        if (!$currentUser) {
+            toast("Please log in to label events");
+            return;
+        }
         if (category.name === "Skip") {
             selectedCategory = null;
             selectedSubcategory = null;
@@ -70,6 +75,7 @@
             .then(() => {
                 toast.success("Label published!");
                 backToCategory();
+                sessionCount.increment();
                 dispatch("nextEvent");
             })
             .catch((error) => {
@@ -89,17 +95,17 @@
 </script>
 
 {#key event.id}
-    <div class="breadcrumb my-6 h-4 flex gap-2 items-center">
+    <div class="relative my-4 z-10 lg:w-1/3">
         {#if selectedCategory}
-            <button
-                on:click={backToCategory}
-                class="px-2 py-1 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 rounded-md dark:text-white"
-                >Back</button
-            >
-            {`${selectedCategory.name} ->`}
+            <div class="breadcrumb mb-4 flex gap-2 items-center">
+                <button
+                    on:click={backToCategory}
+                    class="px-2 py-1 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 rounded-md dark:text-white"
+                    >Back</button
+                >
+                {`${selectedCategory.name} ->`}
+            </div>
         {/if}
-    </div>
-    <div class="relative">
         {#if categoriesVisible}
             <div
                 id="categoryList"
@@ -112,7 +118,7 @@
                         on:click={() => handleCategorySelect(category)}
                         class="{selectedCategory?.name === category.name
                             ? 'bg-gray-700 text-gray-50 dark:bg-gray-300 dark:text-gray-950'
-                            : 'bg-gray-300 dark:bg-gray-600'} dark:text-white p-2 px-4 rounded-md flex gap-2 items-center"
+                            : 'bg-gray-300 dark:bg-gray-600'} dark:text-white hover:bg-gray-200 dark:hover:bg-gray-500 p-2 px-4 rounded-md flex gap-2 items-center"
                     >
                         <CategoryButtonIcon icon={category.icon} />
                         {category.name}

@@ -14,7 +14,6 @@
     });
 
     async function skipForward() {
-        console.log("skip");
         if (events.length === 0) {
             await loadEvents();
         } else {
@@ -39,7 +38,7 @@
     }
 </script>
 
-<div class="eventContainer px-4 lg:px-0">
+<div class="eventContainer px-4 lg:px-0 flex flex-col lg:flex-row lg:justify-between lg:gap-6">
     {#if event}
         <EventCard {event} />
         <LabelForm {event} on:nextEvent={skipForward} />

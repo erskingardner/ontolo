@@ -7,11 +7,26 @@
     import type { NDKUser } from "@nostr-dev-kit/ndk";
     import toast, { Toaster } from "svelte-french-toast";
     import type { LayoutServerData } from "./$types";
+    import { sessionCount } from "$lib/stores/sessionCount";
+    import { browser } from "$app/environment";
 
     export let data: LayoutServerData;
 
     if (data.cookie) {
         $currentUser = $ndk.getUser({ pubkey: data.cookie });
+    }
+
+    if (browser) {
+        const storedSessionCount = localStorage.getItem("sessionCount");
+        const storedSessionCountDate = localStorage.getItem("sessionCountDate");
+        if (
+            storedSessionCount &&
+            storedSessionCountDate &&
+            // Check if the time of the last label event is within 2 hours.
+            Date.parse(storedSessionCountDate) > Date.now() - 2 * 60 * 60 * 1000
+        ) {
+            sessionCount.set(parseInt(storedSessionCount));
+        }
     }
 
     async function signin() {
@@ -40,7 +55,7 @@
 
 <Toaster />
 
-<div class="container prose prose-sm dark:prose-invert mb-4 overflow-hidden">
+<div class="container prose prose-sm lg:max-w-5xl dark:prose-invert mb-4 overflow-hidden">
     <Header on:signin={signin} on:signout={signout} />
     <slot />
 </div>

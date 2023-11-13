@@ -1,6 +1,5 @@
 <script lang="ts">
-    import ndk from "$lib/stores/ndk";
-    import { currentUser } from "$lib/stores/currentUser";
+    import { sessionCount } from "$lib/stores/sessionCount";
     import UserProfileMenu from "./UserProfileMenu.svelte";
 </script>
 
@@ -10,8 +9,7 @@
     <div class="logo"><h1 class="m-0">Ontolo</h1></div>
     <div class="menu flex items-center gap-4">
         <div class="stats flex flex-col gap-0">
-            <span>12 this session</span>
-            <span>135 this week</span>
+            <span>{$sessionCount} this session</span>
         </div>
         <UserProfileMenu on:signin on:signout />
     </div>

@@ -9,7 +9,9 @@
     $: console.log(event);
 </script>
 
-<div class="event border border-gray-500/50 rounded-md my-4 p-4 max-h-[40vh] overflow-y-scroll">
+<div
+    class="event z-20 relative bg-gray-50 dark:bg-gray-950 border border-gray-500/50 rounded-md my-4 p-4 max-h-[40vh] lg:max-h-none lg:w-2/3 overflow-y-scroll"
+>
     {#key event.id}
         <div class="author flex items-center gap-4">
             <Avatar
