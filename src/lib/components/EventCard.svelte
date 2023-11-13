@@ -5,8 +5,6 @@
     import { timeAgo } from "$lib/utils/dates";
 
     export let event: NDKEvent;
-
-    $: console.log(event);
 </script>
 
 <div
@@ -17,7 +15,7 @@
             <Avatar
                 ndk={$ndk}
                 pubkey={event.pubkey}
-                class="w-14 h-14 rounded-full border border-white my-0"
+                class="w-14 h-14 object-cover rounded-full border border-white my-0"
             />
             <span class="flex flex-col gap-0">
                 <Name

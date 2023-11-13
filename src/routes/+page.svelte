@@ -3,16 +3,29 @@
     import EventDebug from "$lib/components/EventDebug.svelte";
     import LabelForm from "$lib/components/LabelForm.svelte";
     import ndk from "$lib/stores/ndk";
-    import type { NDKEvent } from "@nostr-dev-kit/ndk";
-    import { onMount } from "svelte";
+    import type { NDKEvent, NDKFilter } from "@nostr-dev-kit/ndk";
+    import { onMount, beforeUpdate } from "svelte";
+    import { followsOnly } from "$lib/stores/followsOnly";
+    import { currentUserFollows } from "$lib/stores/currentUser";
 
     let events: NDKEvent[] = [];
     let event: NDKEvent | undefined = undefined;
+
+    let loadedFollowMode: boolean = false;
 
     onMount(async () => {
         await loadEvents();
     });
 
+    beforeUpdate(async () => {
+        if ($followsOnly && !loadedFollowMode) {
+            await loadEvents();
+        }
+
+        if (!$followsOnly && loadedFollowMode) {
+            await loadEvents();
+        }
+    });
     async function skipForward() {
         if (events.length === 0) {
             await loadEvents();
@@ -22,12 +35,21 @@
     }
 
     async function loadEvents() {
-        // Fetch events
-        const eventSet = await $ndk.fetchEvents({
+        const filter: NDKFilter = {
             kinds: [1],
             limit: 100,
             since: Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000),
-        });
+        };
+        // If we're in follows mode, add authors filter
+        if ($followsOnly) {
+            filter.authors = $currentUserFollows;
+            loadedFollowMode = true;
+        } else {
+            loadedFollowMode = false;
+        }
+
+        // Fetch events
+        const eventSet = await $ndk.fetchEvents(filter);
 
         // Filter out reposts and quotes
         events = [...eventSet]

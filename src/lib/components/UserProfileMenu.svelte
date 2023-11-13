@@ -30,13 +30,13 @@
             <Avatar
                 ndk={$ndk}
                 pubkey={$currentUser.pubkey}
-                class="w-12 h-12 my-0 rounded-full border-2 border-nostrOrange"
+                class="w-10 h-10 object-cover lg:w-12 lg:h-12 my-0 rounded-full border-2 border-octoTeal"
             />
             <Name
                 ndk={$ndk}
                 pubkey={$currentUser.pubkey}
                 npubMaxLength={9}
-                class="text-lg font-semibold"
+                class="text-lg font-semibold text-gray-100"
             />
         </button>
 
