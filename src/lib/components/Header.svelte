@@ -6,7 +6,9 @@
     import { followsOnly } from "$lib/stores/followsOnly";
 </script>
 
-<div class="header flex justify-between items-center py-2 px-4 bg-octoPurple rounded-b-md">
+<div
+    class="header flex justify-between items-center py-2 px-4 pb-0 lg:pb-2 bg-octoPurple rounded-b-md"
+>
     <a href="/" class="logo no-underline flex flex-row gap-2 items-center">
         <img
             src="https://i.nostr.build/neVn.webp"
@@ -29,10 +31,14 @@
                 <option value={true}>Follows</option>
             </select>
         {/if}
-        <div class="stats flex flex-col gap-0.5">
+        <div class="stats hidden lg:flex flex-col gap-0.5">
             <span class="text-gray-100">{$sessionCount} this session</span>
             <span class="text-gray-100">{$weeklyCount} this week</span>
         </div>
         <UserProfileMenu on:signin on:signout />
     </div>
+</div>
+<div class="stats flex lg:hidden ml-auto justify-end px-4 pb-2 gap-4 bg-octoPurple">
+    <span class="text-gray-100">{$sessionCount} this session</span>
+    <span class="text-gray-100">{$weeklyCount} this week</span>
 </div>
