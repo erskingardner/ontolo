@@ -21,6 +21,9 @@
         if ($currentUser && $currentUserFollows.length === 0) {
             fetchFollowers($currentUser);
         }
+        if ($currentUserFollows.length > 0) {
+            $followsOnly = true;
+        }
     }
 
     if (browser) {
@@ -76,7 +79,6 @@
 
     async function fetchFollowers(ndkUser: NDKUser) {
         const follows = await ndkUser.follows();
-        console.log(follows);
         currentUserFollows.set([...follows].map((f) => f.pubkey));
     }
 </script>

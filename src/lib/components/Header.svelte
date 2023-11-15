@@ -22,15 +22,19 @@
         </h1>
     </a>
     <div class="menu flex items-center gap-4">
-        {#if $currentUser && $currentUserFollows.length > 0}
-            <select
-                bind:value={$followsOnly}
-                class="bg-transparent text-sm py-0.5 no-underline text-gray-100 hover:text-gray-200"
+        <div class="flex flex-col gap-0.5 items-center">
+            {#if $currentUser && $currentUserFollows.length > 0}
+                <select
+                    bind:value={$followsOnly}
+                    class="bg-transparent text-sm py-0.5 no-underline text-gray-100 hover:text-gray-200"
+                >
+                    <option value={false}>Universe</option>
+                    <option value={true}>Follows</option>
+                </select>
+            {/if}
+            <a href="/stats" class="no-underline hover:underline hidden lg:flex">Cumulative Stats</a
             >
-                <option value={false}>Universe</option>
-                <option value={true}>Follows</option>
-            </select>
-        {/if}
+        </div>
         <div class="stats hidden lg:flex flex-col gap-0.5">
             <span class="text-gray-100">{$sessionCount} this session</span>
             <span class="text-gray-100">{$weeklyCount} this week</span>
@@ -38,7 +42,8 @@
         <UserProfileMenu on:signin on:signout />
     </div>
 </div>
-<div class="stats flex lg:hidden ml-auto justify-end px-4 pb-2 gap-4 bg-octoPurple">
+<div class="stats flex lg:hidden ml-auto items-center justify-end px-4 pb-2 gap-4 bg-octoPurple">
     <span class="text-gray-100">{$sessionCount} this session</span>
     <span class="text-gray-100">{$weeklyCount} this week</span>
+    <a href="/stats">Stats</a>
 </div>

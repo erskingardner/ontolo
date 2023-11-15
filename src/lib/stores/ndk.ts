@@ -18,6 +18,7 @@ export const ndkStore = new NDK({
         "wss://nos.lol",
         "wss://relay.snort.social",
         "wss://relay.damus.io",
+        "wss://relay.primal.net",
     ],
     outboxRelayUrls: ["wss://purplepag.es"],
     enableOutboxModel: false,
