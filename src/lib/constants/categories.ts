@@ -1,11 +1,19 @@
 export const categories: App.Category[] = [
     { name: "Skip", icon: "fast-forward" },
     {
+        name: "Memes & Media",
+        icon: "laugh",
+        subcategories: [
+            { name: "GM/GN", icon: "sun-moon" },
+            { name: "Animals", icon: "cat" },
+            { name: "Other", icon: "laugh" },
+        ],
+    },
+    {
         name: "Entertainment & Sports",
         icon: "clapperboard",
         subcategories: [
             { name: "News & Current Events", icon: "newspaper" },
-            { name: "Memes & Media", icon: "laugh" },
             { name: "Music", icon: "music" },
             { name: "TV & Films", icon: "tv" },
             { name: "Books & Writing", icon: "library-big" },
@@ -55,13 +63,20 @@ export const categories: App.Category[] = [
         ],
     },
     {
-        name: "Philosophy, Religion, Law, & History",
+        name: "Philosophy, Religion, & History",
         icon: "graduation-cap",
         subcategories: [
             { name: "Philosophy", icon: "sparkle" },
             { name: "Religion", icon: "church" },
-            { name: "Law", icon: "gavel" },
             { name: "History", icon: "book-open-text" },
+        ],
+    },
+    {
+        name: "Politics & Law",
+        icon: "gavel",
+        subcategories: [
+            { name: "Politics", icon: "globe-2" },
+            { name: "Law", icon: "gavel" },
         ],
     },
     {

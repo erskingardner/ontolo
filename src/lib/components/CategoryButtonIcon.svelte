@@ -4,6 +4,8 @@
         Atom,
         Beef,
         Bitcoin,
+        SunMoon,
+        Cat,
         BookMarked,
         Camera,
         Car,
@@ -60,6 +62,10 @@
     <Atom />
 {:else if icon === "eye-off"}
     <EyeOff />
+{:else if icon === "sun-moon"}
+    <SunMoon />
+{:else if icon === "cat"}
+    <Cat />
 {:else if icon === "chef-hat"}
     <ChefHat />
 {:else if icon === "martini"}

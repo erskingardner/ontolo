@@ -1,6 +1,7 @@
 <script lang="ts">
     import { currentUser, currentUserFollows } from "$lib/stores/currentUser";
     import { sessionCount } from "$lib/stores/sessionCount";
+    import { weeklyCount } from "$lib/stores/weeklyCount";
     import UserProfileMenu from "./UserProfileMenu.svelte";
     import { followsOnly } from "$lib/stores/followsOnly";
 </script>
@@ -19,17 +20,18 @@
         </h1>
     </a>
     <div class="menu flex items-center gap-4">
-        <div class="stats flex flex-col gap-2">
+        {#if $currentUser && $currentUserFollows.length > 0}
+            <select
+                bind:value={$followsOnly}
+                class="bg-transparent text-sm py-0.5 no-underline text-gray-100 hover:text-gray-200"
+            >
+                <option value={false}>Universe</option>
+                <option value={true}>Follows</option>
+            </select>
+        {/if}
+        <div class="stats flex flex-col gap-0.5">
             <span class="text-gray-100">{$sessionCount} this session</span>
-            {#if $currentUser && $currentUserFollows.length > 0}
-                <select
-                    bind:value={$followsOnly}
-                    class="bg-transparent text-sm py-0.5 no-underline text-gray-100 hover:text-gray-200"
-                >
-                    <option value={false}>Universe</option>
-                    <option value={true}>Followers</option>
-                </select>
-            {/if}
+            <span class="text-gray-100">{$weeklyCount} this week</span>
         </div>
         <UserProfileMenu on:signin on:signout />
     </div>

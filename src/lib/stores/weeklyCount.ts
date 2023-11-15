@@ -1,10 +1,11 @@
+import { startOfWeek } from "$lib/utils/dates";
 import { writable } from "svelte/store";
 
-function createSessionCount() {
-    const sessionCount = writable<number>(0);
+function createWeeklyCount() {
+    const weeklyCount = writable<number>(0);
 
     function increment() {
-        sessionCount.update((n) => {
+        weeklyCount.update((n) => {
             const count = n + 1;
             writeToLocalStorage(count);
             return count;
@@ -12,7 +13,7 @@ function createSessionCount() {
     }
 
     function decrement() {
-        sessionCount.update((n) => {
+        weeklyCount.update((n) => {
             const count = n - 1;
             writeToLocalStorage(count);
             return count;
@@ -20,7 +21,7 @@ function createSessionCount() {
     }
 
     function reset() {
-        sessionCount.update(() => {
+        weeklyCount.update(() => {
             const count = 0;
             writeToLocalStorage(count);
             return count;
@@ -28,7 +29,7 @@ function createSessionCount() {
     }
 
     return {
-        ...sessionCount,
+        ...weeklyCount,
         increment,
         decrement,
         reset,
@@ -36,8 +37,8 @@ function createSessionCount() {
 }
 
 function writeToLocalStorage(value: number) {
-    localStorage.setItem("sessionCount", JSON.stringify(value));
-    localStorage.setItem("sessionCountDate", JSON.stringify(new Date()));
+    localStorage.setItem("weeklyCount", JSON.stringify(value));
+    localStorage.setItem("weeklyCountDate", JSON.stringify(startOfWeek()));
 }
 
-export const sessionCount = createSessionCount();
+export const weeklyCount = createWeeklyCount();

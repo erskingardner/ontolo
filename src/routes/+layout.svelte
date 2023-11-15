@@ -11,6 +11,8 @@
     import { browser } from "$app/environment";
     import { goto } from "$app/navigation";
     import { followsOnly } from "$lib/stores/followsOnly";
+    import { startOfWeek } from "$lib/utils/dates";
+    import { weeklyCount } from "$lib/stores/weeklyCount";
 
     export let data: LayoutServerData;
 
@@ -24,6 +26,9 @@
     if (browser) {
         const storedSessionCount = localStorage.getItem("sessionCount");
         const storedSessionCountDate = localStorage.getItem("sessionCountDate");
+        const storedWeeklyCount = localStorage.getItem("weeklyCount");
+        const storedWeeklyCountDate = localStorage.getItem("weeklyCountDate");
+
         if (
             storedSessionCount &&
             storedSessionCountDate &&
@@ -31,6 +36,14 @@
             Date.parse(storedSessionCountDate) > Date.now() - 24 * 60 * 60 * 1000
         ) {
             sessionCount.set(parseInt(storedSessionCount));
+        }
+
+        if (
+            storedWeeklyCount &&
+            storedWeeklyCountDate &&
+            new Date(Date.parse(storedWeeklyCountDate)) === startOfWeek()
+        ) {
+            weeklyCount.set(parseInt(storedWeeklyCount));
         }
     }
 

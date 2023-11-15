@@ -10,6 +10,8 @@
     import { unixTimeNowInSeconds } from "$lib/utils/dates";
     import { currentUser } from "$lib/stores/currentUser";
     import { sessionCount } from "$lib/stores/sessionCount";
+    import { ChevronsRight } from "lucide-svelte";
+    import { weeklyCount } from "$lib/stores/weeklyCount";
 
     const dispatch = createEventDispatcher();
 
@@ -77,6 +79,7 @@
                 labelEvent.publish();
                 backToCategory();
                 sessionCount.increment();
+                weeklyCount.increment();
                 dispatch("nextEvent");
             })
             .catch((error) => {
@@ -123,6 +126,9 @@
                     >
                         <CategoryButtonIcon icon={category.icon} />
                         {category.name}
+                        {#if category.name !== "Skip"}
+                            <ChevronsRight class="ml-auto" />
+                        {/if}
                     </button>
                 {/each}
             </div>
