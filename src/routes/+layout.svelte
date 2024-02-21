@@ -58,8 +58,7 @@
             .then(async (ndkUser: NDKUser) => {
                 $currentUser = ndkUser;
                 await fetchFollowers(ndkUser);
-                document.cookie = `ontoloUserPubkey=${ndkUser.pubkey};
-                    max-age=max-age-in-seconds=1209600; SameSite=Lax; Secure; path=/`;
+                document.cookie = `ontoloUserPubkey=${ndkUser.pubkey}; max-age=1209600; SameSite=Lax; Secure; path=/`;
                 toast.success("Signed in");
                 $followsOnly = true;
             })

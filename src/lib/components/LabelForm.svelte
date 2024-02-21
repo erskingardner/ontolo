@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { NDKEvent, NDKNip07Signer, type NDKTag } from "@nostr-dev-kit/ndk";
+    import { NDKEvent, NDKNip07Signer } from "@nostr-dev-kit/ndk";
     import { categories } from "$lib/constants/categories";
     import { fly } from "svelte/transition";
     import { cubicInOut } from "svelte/easing";

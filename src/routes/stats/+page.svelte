@@ -1,10 +1,11 @@
 <script lang="ts">
     import ndk from "$lib/stores/ndk";
     import type { NDKEvent, NDKSubscription } from "@nostr-dev-kit/ndk";
-    import { onMount, beforeUpdate } from "svelte";
+    import { onMount, beforeUpdate, onDestroy } from "svelte";
     import { Line } from "svelte-chartjs";
     import {
         Chart as ChartJS,
+        type ChartData,
         Title,
         Tooltip,
         Legend,
@@ -14,6 +15,7 @@
         CategoryScale,
     } from "chart.js";
     import StatCard from "$lib/components/StatCard.svelte";
+    import { eachWeekOfInterval, isSameWeek, subMonths } from "date-fns";
 
     // Register so we can tree-shake
     ChartJS.register(Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale);
@@ -21,18 +23,17 @@
     let labelSub: NDKSubscription;
     let labelEvents: Set<NDKEvent> = new Set();
     let labelCount: number = 0;
-    let countsByDate: { [date: string]: number } = {};
+    let countsByWeek: { [weekStart: string]: number } = {};
     let countsByEvent: { [eventId: string]: number } = {};
     let countsByPubkey: { [pubkey: string]: number } = {};
-    let data: Chart.ChartData = {};
+    let chartData: ChartData;
+    let weeks: Date[] = [];
 
     onMount(async () => {
-        // Set up date window
-        for (let i = 7; i >= 0; i--) {
-            let date = new Date();
-            date.setDate(date.getDate() - i);
-            countsByDate[date.toISOString().split("T")[0]] = 0;
-        }
+        weeks = eachWeekOfInterval({ start: subMonths(new Date(), 3), end: new Date() });
+        weeks.forEach((week) => {
+            countsByWeek[week.toISOString().split("T")[0]] = 0;
+        });
 
         // Create a subscription, keep it open
         labelSub = $ndk.subscribe(
@@ -48,8 +49,12 @@
         labelSub.on("event", (event: NDKEvent) => {
             labelEvents.add(event);
             labelCount += 1;
-            let date: string = new Date(event.created_at! * 1000).toISOString().split("T")[0];
-            countsByDate[date] += 1;
+            let date: Date = new Date(event.created_at! * 1000);
+            weeks.forEach((week) => {
+                if (isSameWeek(week, date)) {
+                    countsByWeek[week.toISOString().split("T")[0]] += 1;
+                }
+            });
             const eTagId = event.getMatchingTags("e")[0][1];
             countsByEvent[eTagId] = (countsByEvent[eTagId] || 0) + 1;
             countsByPubkey[event.pubkey] = (countsByPubkey[event.pubkey] || 0) + 1;
@@ -57,16 +62,20 @@
     });
 
     beforeUpdate(() => {
-        data = {
-            labels: Object.keys(countsByDate),
+        chartData = {
+            labels: Object.keys(countsByWeek),
             datasets: [
                 {
                     label: "Label events by date",
-                    data: Object.values(countsByDate),
+                    data: Object.values(countsByWeek),
                     borderColor: "#3DA99E",
                 },
             ],
         };
+    });
+
+    onDestroy(() => {
+        if (labelSub) labelSub.stop();
     });
 </script>
 
@@ -83,5 +92,5 @@
     </div>
 
     <h2>Labels by date</h2>
-    <Line bind:data options={{ responsive: true }} />
+    <Line bind:data={chartData} options={{ responsive: true }} />
 </div>
